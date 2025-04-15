@@ -1,0 +1,64 @@
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-3">
+        <div class="card mt-3">
+          <div class="card-body">
+            <form action="/diary/add" method="post" enctype="multipart/form-data" >
+              <div class="mb-3">
+                <label for="image" class="form-label">Img Url</label>
+                <input class="form-control" type="file" name="imageUrl" id="imageUrl">
+              </div>
+              {{#if errorMessage}}
+                <div class="alert alert-danger" role="alert">
+                      {{errorMessage}}
+                </div>
+              {{/if}}
+              <div class="mb-3">
+                <label for="text" class="form-label">Nima haqida yozamiz?</label>
+                <textarea class="form-control" id="text" name="text" rows="4"></textarea>
+              </div>
+              <input type="hidden" name="_csrf" value="{{csrfToken}}">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 offset-3">
+        {{#if diaries}}
+          {{#each diaries}}
+            <div class="card mb-5 mt-5">
+              <div class="card-body">
+                <div class="list-group mb-1">
+                  <a href="#" class="list-group-item list-group-item-action">        
+                    <img src="https://img.freepik.com/premium-vector/bearded-man-avatar-man-vector-portrait_9385-36.jpg" class="rounded-circle float-start" style="height: 30px;" alt="...">
+                    <h5 class="card-title">{{user.name}}</h5>
+                  </a>
+                </div>
+                <p class="card-text">{{text}}</p>
+                <p class="card-text"><small class="text-muted">{{createdAt}}</small></p>
+              </div>
+              {{#if imageUrl}}
+                <img src="{{imageUrl }}" class="card-img-bottom" alt="...">
+              {{/if}}
+              <div class="card-footer d-flex">
+                <a href="/diary/{{id}} " type="button" class="btn btn-success ">Open</a>
+                <a href="/diary/update/{{id}}" type="button" class="btn btn-primary mx-2">Update</a>
+                <form action="/diary/delete/{{id}}" method="post">
+                  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                   <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+            </div>
+          {{/each}}
+        {{else}}
+          <h1>No diary added yet</h1>
+        {{/if}}
+        
+        
+      </div>
+    </div>
+  </div>
+
